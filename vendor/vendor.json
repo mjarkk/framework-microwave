@@ -41,10 +41,46 @@
 			"versionExact": "v1.3.0"
 		},
 		{
+			"checksumSHA1": "O1v7ZY6psIKMtE2Ma/hp1myzM2o=",
+			"path": "github.com/globalsign/mgo",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "zdy6XflmESAiFmyptSqpUMfXSyo=",
+			"path": "github.com/globalsign/mgo/bson",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "//bXQG4HblBwxHJDIW/PklXAxu0=",
+			"path": "github.com/globalsign/mgo/internal/json",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "loubUcDO2QAStKIlVd7DqSeoEaw=",
+			"path": "github.com/globalsign/mgo/internal/sasl",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "xjfEsfN7ho6dDOVeUQJhW4KzD2I=",
+			"path": "github.com/globalsign/mgo/internal/scram",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
 			"checksumSHA1": "GaJLoEuMGnP5ofXvuweAI4wx06U=",
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "c8b73fbfc08a20631e50a2f3823970e1a7885cb1",
 			"revisionTime": "2018-09-28T18:22:02Z"
+		},
+		{
+			"checksumSHA1": "I+g5iffd0bNDiI8swxzsHiJxBz0=",
+			"path": "github.com/joho/godotenv",
+			"revision": "c0b86d615e06d6fa5f869364d68f774ba49a86e3",
+			"revisionTime": "2018-09-27T05:32:03Z"
 		},
 		{
 			"checksumSHA1": "xnz61Omintrn+UB/Rv2Hh5BgTZw=",
