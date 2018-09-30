@@ -13,7 +13,10 @@ A: It's own document
 Q: How do selectors work in `premission` and `links`
 A: {a collection OR `HOST`}.{pat to object item} arrays are just seen as objects
 
-## Data
+Q: what is stored inside the database?
+A: The { collection }.yml is just a config file that will be used to check, vind links, etc before data is stored/edited/deleted in the database.
+
+## Data object
 Input:
 ```yml
 data:
@@ -42,12 +45,14 @@ A list of flags that can be used to specify data inside data
 - `reqSpecial` require at least 1 special character like -, ;, *, ...
 - `hash:{hasing algorithm}` hash item (the `max`, `min` effect the string that will get hashed not the final hash)
 
-## Premissions  
-Default rules if there are no Premissions:
+## Premissions object
+
+### Default rules with no Premissions set
 - View: norules
 - Edit: no-one
 - Delete: no-one
 
+### Rull overwriting
 Ever item can be overwritten by the next item  
 
 Input:
@@ -76,7 +81,7 @@ When requested via browser with admin rights:
 }
 ```
 
-Select nested item
+Select nested item (because the view is not set it will return to the default value)
 ```yml
 premissions:
   some:
@@ -88,3 +93,37 @@ premissions:
         remove: admin
 ```
 
+## links array
+a Link is an array with objects  
+
+### Links but there is a copy
+Links are not made to litary link data from the origin to a nested object but more to show where the data inside a object/array came from this makes it possible to automaticly copy premissions from the origin and make it possible to automaticly edit all copied object from the origin object/array
+
+### Default rule
+```yml
+duplicates: true
+linksInLinks: false
+```
+
+### Settings
+Object:
+```yml
+from: HOST.friends # the object/array to link data
+to: users # where it is linked to
+duplicates: false # (default=true) allow for duplicates in array? 
+linksInLinks: false # (default=false) Allow links in links probebly not a good idea because of the loophole that might be happening
+```
+
+### Required
+```yml
+from: '' # Needs a valid pointer
+to: '' # Needs a valid pointer
+```
+
+### Example
+```yml
+links:
+  - from: HOST.friends # this object > friends array item
+    to: users # use the user collection (the framework will find the right array item automaticly)
+    duplicates: false # do not allow duplicates
+```

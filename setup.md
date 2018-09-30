@@ -1,3 +1,3 @@
 # How to setup
-Note i not for production
+Note: this project is far from dune and currently its more of a experiment
 
