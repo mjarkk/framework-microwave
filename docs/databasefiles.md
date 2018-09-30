@@ -1,5 +1,6 @@
 # collection files
-Inside {collection}.yml are the config files
+Inside SomeFolderWithCollections/{collection}.yml are the config/skeleton files for the database.  
+These files play a big role in the server because this defines what will be inside the database and what can be requested by who
 
 ## Collection configs parts
 - **data** = The skeleton of the data
@@ -32,7 +33,7 @@ Output in collection when creation of user:
 Flags:  
 A list of flags that can be used to specify data inside data
 - `required` input is require
-- `string`, `json`, `int` or `boolean` are requred data types
+- `string`, `json`, `int` or `boolean` are requred data 
 - `linked` show the input is linked to something else
 - `primary` ever array item needs at least one to make linking possible
 - `unique` can't be the same in other documents
@@ -43,7 +44,15 @@ A list of flags that can be used to specify data inside data
 - `reqUppercase` require at least 1 upper case letter
 - `reqLowercase` requires at least 1 lower case letter
 - `reqSpecial` require at least 1 special character like -, ;, *, ...
-- `hash:{hasing algorithm}` hash item (the `max`, `min` effect the string that will get hashed not the final hash)
+- `hash:{hasing algorithm}` hash item (the `max`, `min` effect the string that will get hashed not the final hash)types
+- `json` the content is raw json that won't be stringified so it needs to be valid json! it's also not vilterable with graphql
+- `json:graphql` the same as `json` but with graphql support
+- `json:raw` the same as `json` but the json will get parsed
+- `file` you can post a file to this selector, the framework will then save the file in a folder and the file url will be in the file object
+- `check={a list of function names}` add a custom check before the data get saved to the database
+- `transformer={a list of function names}` transform the data before it's saved this
+
+NOTE: the flags will be checked and ran after each other from left to right
 
 ## Premissions object
 
