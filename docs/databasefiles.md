@@ -136,3 +136,6 @@ links:
     to: users # use the user collection (the framework will find the right array item automaticly)
     duplicates: false # do not allow duplicates
 ```
+
+### In witch yaml file do i need to set the link
+In the same file as where you placed the link
