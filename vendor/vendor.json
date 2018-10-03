@@ -107,6 +107,12 @@
 			"revisionTime": "2018-07-18T01:23:57Z"
 		},
 		{
+			"checksumSHA1": "R8z+BOS81hOWgcqymuVWHNta/yc=",
+			"path": "github.com/oleiade/reflections",
+			"revision": "0e86b3c98b2ff33e30c85cfe97d9a63d439fe7eb",
+			"revisionTime": "2016-08-17T07:03:35Z"
+		},
+		{
 			"checksumSHA1": "1DS/Ji9N9XzFauTiFIa33Ek1+hw=",
 			"path": "github.com/ugorji/go/codec",
 			"revision": "99ea80c8b19ad777f970258ca09c5c2d5826f0fd",
