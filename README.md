@@ -28,7 +28,7 @@ Okey maybe one thing types are handy
 I like the way graphql works on the client side but i don't like the way it works on the server.  
 Graphql gets complicated when you have so much data that you would need an extra filter to the database like only filter out 1000 items and then run the Graphql query over that data. When the data that you want is outside that range you need to re-run the query on a list of extra items.  
 Because of that reason i want to inplement the filtering from graphql directly on the database that would make it so much better.  
-After the data is reciefed from the data filter out the un needed object items.
+After the data is reciefed from the database the rest of the graphql things get applied to the return data.  
 
 ## Docs
 More detailed docs can be found in the docs folder: https://github.com/mjarkk/framework-microwave/tree/master/docs
