@@ -18,13 +18,7 @@ func OpenFile(filePath string) (string, error) {
 
 // PathDoesNotExist checks if a input path exist and return a `true` if so
 func PathDoesNotExist(path string) bool {
-	if string(path[0]) != "/" {
-		dir, err := filepath.Abs(".")
-		if err != nil {
-			return true
-		}
-		path = filepath.Join(dir, path)
-	}
+	path = CDir(path)
 	stats, err := os.Stat(path)
 	if err != nil || !stats.IsDir() {
 		return true
@@ -48,13 +42,19 @@ func ListFiles(path string) ([]string, error) {
 	return files, nil
 }
 
-// CurrentDir returns the currentdir plus a path to someware
-func CurrentDir(reslovePath ...string) string {
+// CDir returns the current directory plus a path to someware
+func CDir(reslovePath ...string) string {
 	dir, err := filepath.Abs(".")
 	if err != nil {
 		return ""
 	}
-	return dir
-	// baseDir := []string{dir}
-	// return filepath.Join(append(baseDir, reslovePath...))
+	baseDir := []string{dir}
+	for i, pathItem := range reslovePath {
+		if i == 0 && string(pathItem[0]) == "/" {
+			baseDir[0] = pathItem
+		} else {
+			baseDir = append(baseDir, pathItem)
+		}
+	}
+	return filepath.Join(baseDir...)
 }

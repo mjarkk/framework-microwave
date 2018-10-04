@@ -1,35 +1,32 @@
 package filehandeler
 
 import (
-	"fmt"
-
+	"github.com/mjarkk/framework-microwave/pkg/types"
 	yaml "gopkg.in/yaml.v2"
 )
 
-// Inter is just a shorthand for interface{}
-type Inter interface{}
-
-// YmlList returns a list of Yml
-type YmlList []struct {
-	fileName     string
-	fileContents Inter
-}
-
 // ReadAllYamlIn reads all yml files in a directory and returns the files + filenames
-func ReadAllYamlIn(path string) (YmlList, error) {
-	toReturn := YmlList{}
+func ReadAllYamlIn(path string) ([]types.YmlList, error) {
+	toReturn := []types.YmlList{}
 	files, err := ListFiles(path)
 	if err != nil {
 		return toReturn, err
 	}
 	for _, file := range files {
-		fmt.Println(file)
+		ymlContent, err := ReadYmlFile(CDir(path, file))
+		if err != nil {
+			return toReturn, err
+		}
+		toReturn = append(toReturn, types.YmlList{
+			FileName:     file,
+			FileContents: ymlContent,
+		})
 	}
 	return toReturn, nil
 }
 
 // ReadYmlFile reads a yaml file and returns the contents of the yaml file as object
-func ReadYmlFile(path string) (Inter, error) {
+func ReadYmlFile(path string) (types.Inter, error) {
 	fileData, err := OpenFile(path)
 	if err != nil {
 		return "", err
@@ -42,8 +39,8 @@ func ReadYmlFile(path string) (Inter, error) {
 }
 
 // ReadYml returns the contents of a yaml file into an object
-func ReadYml(data string) (Inter, error) {
-	var t Inter
+func ReadYml(data string) (types.Inter, error) {
+	var t types.Inter
 	err := yaml.Unmarshal([]byte(data), &t)
 	return t, err
 }

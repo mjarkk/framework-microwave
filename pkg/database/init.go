@@ -1,18 +1,17 @@
 package database
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/globalsign/mgo"
 	"github.com/mjarkk/framework-microwave/pkg/filehandeler"
 	"github.com/mjarkk/framework-microwave/pkg/globalvars"
 	"github.com/mjarkk/framework-microwave/pkg/gui"
+	"github.com/mjarkk/framework-microwave/pkg/types"
 )
 
 // Init initializes the database
 // check if it can connect
-//
 func Init() {
 	// Conect to mongodb
 	mongoURL := os.Getenv("MONGODB_URL")
@@ -31,5 +30,10 @@ func Init() {
 	if err != nil {
 		gui.CritErr("can't read yaml database files in " + globalvars.Settings.MigrationPath + " error: " + err.Error())
 	}
-	fmt.Println(YmlList)
+	ParseDBYml(YmlList)
+}
+
+// ParseDBYml parses a list of yaml files to workable objects
+func ParseDBYml(items []types.YmlList) {
+
 }
