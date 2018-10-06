@@ -35,12 +35,12 @@ A list of flags that can be used to specify data inside data
 - `required` input is require
 - `string`, `json`, `int` or `boolean` are requred data 
 - `linked` show the input is linked to something else
-- `primary` ever array item needs at least one to make linking possible
+- `primary` ever array item needs at least one to make linking possible (this also makes this vaiable `unique`)
 - `unique` can't be the same in other documents
 - `default={some default val}` default val if item is not set
 - `min={some int}` set the minimum amound of characters or minimum amound of items in a array (in the case of an array it will start counting by 1)
 - `max={some int}` the opposite of `min`
-- `regex=/{the regex}/{regex flags}` use regex as matcher
+- `regex=/{the regex}/` use regex as matcher (This needs to be a regex understandable by golang)
 - `reqUppercase` require at least 1 upper case letter
 - `reqLowercase` requires at least 1 lower case letter
 - `reqSpecial` require at least 1 special character like -, ;, *, ...
@@ -62,8 +62,18 @@ NOTE: the flags will be checked and ran after each other from left to right
 - Delete: no-one
 
 ### Rull overwriting
-Ever item can be overwritten by the next item  
+A nested object item can overwrite the rules of it's own object 
+Example
+```yml
+HOST:
+  view:
+    - admin
+username:
+  view:
+    - HOST.username # this can
+```
 
+### Demo
 Input:
 ```yml
 data:
@@ -101,6 +111,75 @@ premissions:
           - HOST.name
         remove: admin
 ```
+
+### Premissions functions, rules, selectors
+Every premissions array item has that rule  
+```yml
+view:
+  - admin
+  - HOST.name
+```
+
+Group access is defined as the group name
+```yml
+- admin
+```
+
+Group spesific access
+```yml
+- users=someRandomUser
+```
+
+Function based premissions
+```yml
+- func=foo,bar,baz
+```
+
+User's data is in object  
+This searches if the current user making the request has the premission to view an array
+```yml
+- HOST.name # HOST.{some}.{path}.{to}.{an}.{item}
+```
+
+Data in object matches something
+```yml
+- HOST.hidden=false
+```
+
+Data in object matches regex  
+This needs to be a regex understandable by golang
+```yml
+- HOST.hidden=/^some\s*matcher$/
+```
+
+If data doesn't match `(!)...` or `(!1)...`
+```yml
+friends:
+  view:
+    - friends & friendsFromFriends & (!)func=blockedUsers
+    - admin
+```
+
+Ignore all other rules if `(!!)...` or `(!2)...` failes
+To still allow a rule over `(!2)` use `(!!!)` or `(!3)`  
+The example below shows if someone in the group admin is blacklisted they can still access the data but if someone is allowed by the friendsFromFriends function and are blacklisted they won't beable to view the data  
+TODO think about a better `(!), (!!) and (!!!)` 
+```yml
+friends:
+  view:
+    - (!2)func=blockedUsers
+    - friends
+    - func=friendsFromFriends
+    - (!3)admin
+```
+  
+Someone needs `foo` and `bar` before they have access
+```yml
+- HOST.name:HOST.hidden=false
+```
+
+### Some other notes
+- If something has access to edit an colection item but not has no access to view they are automaticly disalowed to eddit the contents of that item 
 
 ## links array
 a Link is an array with objects  
