@@ -79,38 +79,44 @@ func ParseYml(contentRaw types.Inter) (types.DBList, error) {
 	if content["links"] != nil {
 		// parse the links object
 	}
-
-	// switch content := content.(type) {
-	// case map[interface{}]interface{}:
-	// 	for index := range content {
-	// 		if index == "data" {
-	// 			// handel the data object
-	// 			if lastState == "" {
-	// 				data, err := loopItemData(content)
-	// 				if err != nil {
-	// 					return data, err
-	// 				}
-	// 				toReturn = data
-	// 			} else {
-	// 				return toReturn, errors.New("The order of yml file content is wrong it needs to be: `data`, `premissions`, `links`")
-	// 			}
-	// 		} else if index == "premissions" {
-	// 			// handel the premissions object
-	// 		} else if index == "links" {
-	// 			// handel the links object
-	// 		}
-	// 		lastState = index.(string)
-	// 	}
-	// }
 	return toReturn, nil
 }
 
 func loopItemData(contentRaw types.Inter) (types.DBList, error) {
-	var toReturn types.DBList
+	toReturn := make(types.DBList)
 	var content types.MapInter = contentRaw.(map[interface{}]interface{})
-	for index := range content {
+	for i, value := range content {
+		index := i.(string)
+		iType := fmt.Sprintf("%T", value)
 
-		fmt.Println(index)
+		toAdd := types.DBItem{}
+
+		if iType == "int" ||
+			iType == "int8" || iType == "int16" || iType == "int32" || iType == "int64" ||
+			iType == "uint" || iType == "uint8" || iType == "uint16" || iType == "uint32" || iType == "uint64" ||
+			iType == "bool" || iType == "float32" || iType == "float64" || iType == "FloatType" {
+			// TODO add full path to yaml item
+			return toReturn, errors.New(index + " Contains wrong data type '" + iType + "'")
+		} else if iType == "string" {
+			fmt.Println(index, "=", value)
+
+		} else if iType == "[]interface {}" {
+			transform := value.([]interface{})[0]
+			valueType := fmt.Sprintf("%T", transform)
+			if valueType == "string" {
+				fmt.Println(index, "=", transform)
+			} else {
+				// is object in array in object
+				fmt.Println(index, "= To parse object")
+				// loopItemData(transform)
+			}
+		} else {
+			// is object in object
+			fmt.Println(index, "= To parse object")
+			// loopItemData(transform)
+		}
+
+		toReturn[index] = toAdd
 	}
 	return toReturn, nil
 }
