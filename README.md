@@ -8,11 +8,14 @@ A backend* web framework for people with different tastes
 
 ## A very short explination what my idea is
 - Bind a database collection to webserver routes.  
-- Use graphql to filter/query inside the database and change the data that will be send back.  
+- Use a kinda graphql to filter/query inside the database and change the data that will be send back.
 - DB collection settings/skeletons are defined by yaml files  
 - Events for everything  
 - Being a good api
 - Make building complex websites easy
+- Automatic generating docs
+- Good debug experiance (logs, slack intergration, js debugger in website, api debug)
+- Get stats for everything
 
 ## Why i want to make this
 There is not realy a all in one backend framework like laravel/buffalo that combines golang, mongodb and graphql without the serverless, google, amazon, and so on  
