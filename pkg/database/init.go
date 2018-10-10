@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/globalsign/mgo"
 	"github.com/mjarkk/framework-microwave/pkg/filehandeler"
@@ -98,13 +99,26 @@ func loopItemData(contentRaw types.Inter) (types.DBList, error) {
 			// TODO add full path to yaml item
 			return toReturn, errors.New(index + " Contains wrong data type '" + iType + "'")
 		} else if iType == "string" {
+
+			update, err := detectDBItem(toAdd, value.(string))
+			if err != nil {
+				return toReturn, err
+			}
+			toAdd = update
 			fmt.Println(index, "=", value)
 
 		} else if iType == "[]interface {}" {
 			transform := value.([]interface{})[0]
 			valueType := fmt.Sprintf("%T", transform)
 			if valueType == "string" {
+
+				update, err := detectDBItem(toAdd, transform.(string))
+				if err != nil {
+					return toReturn, err
+				}
+				toAdd = update
 				fmt.Println(index, "=", transform)
+
 			} else {
 				// is object in array in object
 				fmt.Println(index, "= To parse object")
@@ -119,4 +133,15 @@ func loopItemData(contentRaw types.Inter) (types.DBList, error) {
 		toReturn[index] = toAdd
 	}
 	return toReturn, nil
+}
+
+func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
+	filters := strings.Split(input, ":")
+	for _, f := range filters {
+		fmt.Println(f)
+		if true {
+
+		}
+	}
+	return DBItem, nil
 }
