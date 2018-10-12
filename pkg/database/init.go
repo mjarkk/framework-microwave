@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/globalsign/mgo"
 	"github.com/mjarkk/framework-microwave/pkg/filehandeler"
@@ -133,15 +132,4 @@ func loopItemData(contentRaw types.Inter) (types.DBList, error) {
 		toReturn[index] = toAdd
 	}
 	return toReturn, nil
-}
-
-func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
-	filters := strings.Split(input, ":")
-	for _, f := range filters {
-		fmt.Println(f)
-		if true {
-
-		}
-	}
-	return DBItem, nil
 }
