@@ -41,11 +41,13 @@ Flags:
 A list of flags that can be used to specify data inside data
 
 - `required` input is require
-- `string`, `json`, `int`, `byteArr` or `boolean` are requred data
+- `string`, `json`, `int`, `byteArr`, `base64` (requires file type) or `boolean` are requred data
+- `{Data Type Send To DB}<>{Data Type Saved In DB}` Change the data type send to the database and what will be actualy stored in the database (this requires a transformer), Example `byteArr:string`
 - `linked` show the input is linked to something else
 - `primary` ever array item needs at least one to make linking possible (this also makes this vaiable `unique`)
 - `unique` can't be the same in other documents
-- `default={some default val}` default val if item is not set
+- `default={some default val}` set a default value (for array this will create 1 item) this also supports data cloning like `HOST.createdBy`
+- `default=[foo,bar,baz]` default for array this will created multiple items in a array
 - `min={some int}` set the minimum amound of characters or minimum amound of items in a array (in the case of an array it will start counting by 1)
 - `max={some int}` the opposite of `min`
 - `regex=/{the regex}/` use regex as matcher (This needs to be a regex understandable by golang)
@@ -65,27 +67,14 @@ NOTE: the flags will be checked and ran after each other from left to right
 
 ## Premissions object
 
-### Default rules with no Premissions set
+### Types of Premissions
 
-- View: norules
-- Edit: no-one
-- Delete: no-one
+- `view`: Who can view the items, Default: `norules`
+- `edit`: Who can edit the data, Default: `admin`
+- `delete`: Who can delete the data, Default: `admin`
+- `add`: Who can add data to a collection, Default: `admin`
 
-### Rull overwriting
-
-A nested object item can overwrite the rules of it's own object
-Example
-
-```yml
-HOST:
-  view:
-    - admin
-username:
-  view:
-    - HOST.username # this can
-```
-
-### Demo
+### Examples
 
 Input:
 
@@ -127,8 +116,22 @@ premissions:
       item:
         edit:
           - admin
-          - HOST.name
+          - user(HOST.name)
         remove: admin
+```
+
+### Rull overwriting
+
+A nested object item can overwrite the rules of it's own object
+Example
+
+```yml
+HOST:
+  view:
+    - admin
+username:
+  view:
+    - user(HOST.username)
 ```
 
 ### Premissions functions, rules, selectors
@@ -138,7 +141,7 @@ Every premissions array item has that rule
 ```yml
 view:
   - admin
-  - HOST.name
+  - user(HOST.name)
 ```
 
 Group access is defined as the group name
@@ -163,7 +166,7 @@ User's data is in object
 This searches if the current user making the request has the premission to view an array
 
 ```yml
-- HOST.name # HOST.{some}.{path}.{to}.{an}.{item}
+- user(HOST.name) # HOST.{some}.{path}.{to}.{an}.{item}
 ```
 
 Data in object matches something

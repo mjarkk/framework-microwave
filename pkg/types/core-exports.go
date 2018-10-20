@@ -68,8 +68,8 @@ type DBItemDataRequirements struct {
 // DBItemDataFilter is the DataFilter section in DBItem
 // Data filters before saving (this type has items that do set data)
 type DBItemDataFilter struct {
-	Order         []string    // The order of executing the filters
-	transformers  []string    // A list of custom tranformers defined by the user
+	Order         []string    // The order of executing filters
+	Transformers  []string    // A list of custom tranformers defined by the user
 	HasDefaultVal bool        // Value has default value
 	DefaultVal    interface{} // The default value (will be changed to the datatype)
 	HasHash       bool        // Has Hash filter
@@ -113,7 +113,7 @@ func GenerateDBItem() DBItem {
 		IgnoreDataFilter: true,
 		DataFilter: DBItemDataFilter{
 			Order:         []string{},
-			transformers:  []string{},
+			Transformers:  []string{},
 			HasDefaultVal: false,
 			DefaultVal:    "",
 			HasHash:       false,

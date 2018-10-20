@@ -28,6 +28,7 @@ There is not realy a all in one backend framework like laravel/buffalo that comb
 ## Why mongodb
 
 Because i'm not a fan of sql and i also don't like cloud providers like google's firebase  
+It's also one of the most used nosql database
 
 ## Why golang
 

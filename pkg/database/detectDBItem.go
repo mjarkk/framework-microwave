@@ -46,20 +46,21 @@ func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
 			// Set default value
 			DBItem.DataFilter.HasDefaultVal = true
 			DBItem.DataFilter.DefaultVal = regex.FindMatch(f, `default=(.*)`, 1)
+			DBItem.DataFilter.Order = append(DBItem.DataFilter.Order, "DefaultVal")
 			IgnoreDataFilter = false
-		} else if regex.Match(`min=\d*`, f) {
+		} else if regex.Match(`min=\d+`, f) {
 			// Set min lenght of the input
-			value := regex.FindMatch(f, `default=(\d*)`, 1)
-			intValue, err := strconv.ParseUint(value, 10, 32)
+			value := regex.FindMatch(f, `min=(\d+)`, 1)
+			intValue, err := strconv.Atoi(value)
 			if err != nil {
 				return DBItem, err
 			}
 			DBItem.DataRequirements.MinLen = uint32(intValue)
 			IgnoreDataRequirements = false
-		} else if regex.Match(`max=\d*`, f) {
+		} else if regex.Match(`max=\d+`, f) {
 			// Set max lenght of the input
-			value := regex.FindMatch(f, `default=(\d*)`, 1)
-			intValue, err := strconv.ParseUint(value, 10, 32)
+			value := regex.FindMatch(f, `max=(\d+)`, 1)
+			intValue, err := strconv.Atoi(value)
 			if err != nil {
 				return DBItem, err
 			}
@@ -88,6 +89,7 @@ func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
 			// Set hashPassword data filter
 			DBItem.DataFilter.HasHash = true
 			DBItem.DataFilter.Hash = "pbkdf2"
+			DBItem.DataFilter.Order = append(DBItem.DataFilter.Order, "Hash")
 			IgnoreDataFilter = false
 		} else if regex.Match(f, `hash=.*`) {
 			// Set hasing data filter
@@ -97,6 +99,7 @@ func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
 			}
 			DBItem.DataFilter.HasHash = true
 			DBItem.DataFilter.Hash = hashType
+			DBItem.DataFilter.Order = append(DBItem.DataFilter.Order, "Hash")
 			IgnoreDataFilter = false
 		} else if regex.Match(f, `file`) {
 			// Set content is file
@@ -110,8 +113,10 @@ func detectDBItem(DBItem types.DBItem, input string) (types.DBItem, error) {
 		} else if regex.Match(f, `transformer=(\d|\w|,)+`) {
 			// Set user defined function data transforms
 			// TODO check if all function are specified by the user
-			checks := strings.Split(regex.Replace(f, "", "transformer="), ",")
-			DBItem.DataRequirements.Checkers = checks
+			transforms := strings.Split(regex.Replace(f, "", "transformer="), ",")
+			DBItem.DataFilter.Transformers = transforms
+			DBItem.DataFilter.Order = append(DBItem.DataFilter.Order, "Transformers")
+			IgnoreDataFilter = false
 		} else {
 			return DBItem, errors.New("Value flag: `" + f + "` doesn't match the api schema look at https://github.com/mjarkk/framework-microwave/blob/master/docs/databasefiles.md for more info")
 		}
