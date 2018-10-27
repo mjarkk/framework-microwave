@@ -4,9 +4,9 @@ A backend* web framework for people with different tastes
 
 ## General technology
 
-- Server lang: golang
-- Database: mongodb
-- queries: graphql (kinda)
+- Server lang: **golang**
+- Database: **mongodb**
+- queries: **graphql** *(kinda)*
 
 ## A very short explination what my idea is
 
